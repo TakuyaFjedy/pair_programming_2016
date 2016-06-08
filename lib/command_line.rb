@@ -9,6 +9,32 @@ class Card
   attr_reader :number, :type
 end
 
+class Dealer
+  def initialize(_name)
+    @name = _name
+  end
+  def create_stock
+    stock = []
+    13.times do |i|
+      stock.push Card.new(i + 1, "spade")
+      stock.push Card.new(i + 1, "diamond")
+      stock.push Card.new(i + 1, "heart")
+      stock.push Card.new(i + 1, "clover")
+    end
+    stock.shuffle!
+    @stock = stock
+    stock
+  end
+  def deal
+    hand = []
+    5.times do |i|
+      hand.push @stock.delete_at(i)
+    end
+    hand
+  end
+  attr_reader :name, :stock
+end
+
 # class Hand
 #   1st = Card.
 #   2nd
@@ -48,7 +74,6 @@ def fullhouse?(_hand)
   g = grouped.count == 2
   t && g
 end
-
 
 def twopair?(_hand)
   grouped = _hand.group_by {|card| card.number}
@@ -90,48 +115,39 @@ def royalflash?(_hand)
   return false
 end
 
+aisaka = Dealer.new("相坂")
+stock = aisaka.create_stock
 
+# hand = aisaka.deal
+
+
+# puts "----------------------"
+# 5.times do |i|
+#   puts hand[i].show
+# end
+
+# if(flash?(hand))
+#   puts "フラッシュ!!"
+# elsif(fourcard?(hand))
+#   puts "フォーカード!!"
+# elsif(threecard?(hand))
+#   puts "スリーカード!!"
+# elsif(fullhouse?(hand))
+#   puts "フルハウス!!"
+# elsif(twopair?(hand))
+#   puts "ツーペア!!"
+# elsif(onepair?(hand))
+#   puts "ワンペア!!"
+# elsif(straight?(hand))
+#   puts "ストレート!!"
+# elsif(straightflash?(hand))
+#   puts "ストレートフラッシュ!!"
+# elsif(royalflash?(hand))
+#   puts "ロイヤルフラッシュ!!"
+# else
+#   puts "ノーペア!!"
+# end
 #puts Card.new(7,"spade").show
-
-stock = []
-13.times do |i|
-  stock.push Card.new(i + 1, "spade")
-  stock.push Card.new(i + 1, "diamond")
-  stock.push Card.new(i + 1, "heart")
-  stock.push Card.new(i + 1, "clover")
-end
-stock.shuffle!
-hand = []
-5.times do |i|
-  hand.push stock.delete_at(i)
-end
-
-puts "----------------------"
-5.times do |i|
-  puts hand[i].show
-end
-
-if(flash?(hand))
-  puts "フラッシュ!!"
-elsif(fourcard?(hand))
-  puts "フォーカード!!"
-elsif(threecard?(hand))
-  puts "スリーカード!!"
-elsif(fullhouse?(hand))
-  puts "フルハウス!!"
-elsif(twopair?(hand))
-  puts "ツーペア!!"
-elsif(onepair?(hand))
-  puts "ワンペア!!"
-elsif(straight?(hand))
-  puts "ストレート!!"
-elsif(straightflash?(hand))
-  puts "ストレートフラッシュ!!"
-elsif(royalflash?(hand))
-  puts "ロイヤルフラッシュ!!"
-else
-  puts "ノーペア!!"
-end
 
 # puts flash?(hand)
 # puts fourcard?([Card.new(11,"diamond"),Card.new(11,"spade"),Card.new(11,"heart"),Card.new(11,"clover"),Card.new(3,"spade")])
